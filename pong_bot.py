@@ -20,7 +20,8 @@ async def on_message(message):
     if(message.content.startswith('!gameplan')):
         await client.send_message(message.channel, 'stop suk')
     if(message.content.startswith('!whothrew')):
-        await client.send_message(message.channel, 'Diablo')
+        author = str(message.author).split('#')[0]
+        await client.send_message(message.channel, 'Either ' +author+ ' or Diablo. But probably '+author+'.')
     if(message.content.startswith('!patchnotes')):
         url = 'http://us.battle.net/heroes/en/blog/'
         patch_note_base_url = 'http://us.battle.net'
