@@ -41,7 +41,21 @@ async def on_message(message):
         v_channel = author.voice.voice_channel
         if(v_channel is not None):
             voice = await client.join_voice_channel(v_channel)
-            player = voice.create_ffmpeg_player('.voice_lines/Genji/Mada_mada.mp3')
+            player = voice.create_ffmpeg_player('.voice_lines/genji/mada_mada.mp3')
+            player.start()
+            while True:
+                try:
+                    if player.is_done():
+                        await voice.disconnect()
+                        break
+                except:
+                    break;
+    if(message.content.startswith('!hagay')):
+        author = message.author
+        v_channel = author.voice.voice_channel
+        if(v_channel is not None):
+            voice = await client.join_voice_channel(v_channel)
+            player = voice.create_ffmpeg_player('.voice_lines/misc/hagay.mp3')
             player.start()
             while True:
                 try:
