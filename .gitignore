@@ -38,3 +38,4 @@ Thumbs.db
 
 #Voice folders#
 .voice_lines
+ffmpeg/
