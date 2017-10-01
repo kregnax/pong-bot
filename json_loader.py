@@ -10,3 +10,7 @@ def get_text_commands_json():
 def get_voice_commands_json():
     with open(voice_command_json_path) as json_file:
         return json.load(json_file)
+
+def get_json(file_path):
+    with open(file_path) as json_file:
+        return json.load(json_file)

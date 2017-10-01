@@ -85,5 +85,8 @@ async def on_message(message):
     if(message.content.startswith('!commands')):
         await client.send_message(message.channel, 'Available commands:\n!ping\n!gameplan\n!whothrew\n!patchnotes')
 
-text_commands = json_loader.get_text_commands_json()
+
+configs = json_loader.get_json("config.json")
+text_commands = json_loader.get_json("text_commands.json")
+voice_commands = json_loader.get_json("voice_commands.json")
 client.run('MzYzMTEzNDY0NTg0OTk0ODE4.DK8fZw.u69xqQC76fYfozoKkGfZueaUgtc')
