@@ -29,6 +29,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    #TODO: use message.attachments to save images with text command
     if(message.content.startswith("!voice")):
         commands = str(message.content).split()
         command_length = len(commands)
@@ -135,7 +136,7 @@ async def on_message(message):
         if(v_channel is not None):
             voice = await client.join_voice_channel(v_channel)
             player = voice.create_ffmpeg_player('.voice_lines/special/garbagewater.mp3')
-            player.volume = 0.4
+            player.volume = 0.15
             player.start()
             while True:
                 try:
