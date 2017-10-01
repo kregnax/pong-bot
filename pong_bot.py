@@ -2,6 +2,7 @@ import discord
 import asyncio
 from bs4 import BeautifulSoup
 import urllib.request
+import random
 import re
 import sys
 from os import listdir
@@ -10,6 +11,11 @@ import tempfile
 import json_loader
 
 client = discord.Client()
+configs = json_loader.get_json("config.json")
+text_commands = json_loader.get_json("text_commands.json")
+voice_commands = json_loader.get_json("voice_commands.json")
+
+voice_files_location = configs["voice"]["directory_name"]
 
 @client.event
 async def on_ready():
@@ -24,6 +30,27 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    if(message.content.startswith("!voice")):
+        commands = str(message.content).split()
+        if(commands[0] == "!voice"):
+            owner = str(commands[1])
+            if(owner in voice_commands):
+                file_to_play = str(voice_files_location) +"/"+owner+"/"+str(random.choice(voice_commands[owner]["filename"]))
+                author = message.author
+                v_channel = author.voice.voice_channel
+                if(v_channel is not None):
+                    voice = await client.join_voice_channel(v_channel)
+                    player = voice.create_ffmpeg_player(file_to_play)
+                    player.start()
+                    while True:
+                        try:
+                            if player.is_done():
+                                await voice.disconnect()
+                                break
+                        except:
+                            break;
+
+
     if(message.content.startswith("!addtxtcmd")):
         if(str(message.author) == "kregnax#2710"):
             cmd_in = str(message.content).split()
@@ -85,8 +112,4 @@ async def on_message(message):
     if(message.content.startswith('!commands')):
         await client.send_message(message.channel, 'Available commands:\n!ping\n!gameplan\n!whothrew\n!patchnotes')
 
-
-configs = json_loader.get_json("config.json")
-text_commands = json_loader.get_json("text_commands.json")
-voice_commands = json_loader.get_json("voice_commands.json")
 client.run('MzYzMTEzNDY0NTg0OTk0ODE4.DK8fZw.u69xqQC76fYfozoKkGfZueaUgtc')
