@@ -3,7 +3,7 @@
         "directory_name":".voice_lines",
         "voice_file_type":"mp3"
     },
-    "command_files":{
+    "json_command_files":{
         "text_commands":"text_commands.json",
         "voice_commands":"voice_commands.json"
     },

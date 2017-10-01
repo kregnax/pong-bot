@@ -9,10 +9,21 @@
             "need_healing.mp3"
         ]
     },
+    "doc":{
+        "filename":[
+            "doc_come_come_donuts.mp3",
+            "doc_wasd.mp3",
+            "doc_raul.mp3",
+            "doc_yeah.mp3",
+            "doc_looking_feeling_smelling_good.mp3"
+        ]
+    },
     "misc":{
         "filename":[
             "hagay.mp3",
-            "magnitude.mp3"
+            "magnitude.mp3",
+            "alan_garbage_water.mp3",
+            "alan_laugh.mp3"
         ]
     }
 }
