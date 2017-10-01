@@ -1,0 +1,11 @@
+{
+    "voice":{
+        "directory_path":"C:\\Users\\Alan\\Documents\\Python Scripts\\Discord\\bots\\pong_bot\\.voice_lines",
+        "voice_file_type":"mp3"
+    },
+    "commands":{
+        "text_commands":"",
+        "voice_commands":""
+    },
+    "admins":["kregnax", "wildemxc"]
+}

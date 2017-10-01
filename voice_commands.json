@@ -1,0 +1,16 @@
+{
+    "genji": {
+        "filename":[
+            "genji_is_with_you.mp3",
+            "mada_mada.mp3",
+            "no_ken_wo_kurae.mp3",
+            "dragon_and_I_are_one.mp3",
+            "dragon_becomes_me.mp3"
+        ]
+    },
+    "misc":{
+        "filename":[
+            "hagay.mp3"
+        ]
+    }
+}

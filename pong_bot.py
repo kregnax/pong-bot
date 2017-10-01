@@ -5,6 +5,9 @@ import urllib.request
 import re
 import sys
 from os import listdir
+import json
+import tempfile
+import json_loader
 
 client = discord.Client()
 
@@ -21,13 +24,28 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if(message.content.startswith('!ping')):
-        await client.send_message(message.channel, 'Pong!')
-    if(message.content.startswith('!gameplan')):
-        await client.send_message(message.channel, 'stop suk')
-    if(message.content.startswith('!whothrew')):
-        author = str(message.author).split('#')[0]
-        await client.send_message(message.channel, 'Either ' +author+ ' or Diablo. But probably '+author+'.')
+    if(message.content.startswith("!addtxtcmd")):
+        if(str(message.author) == "kregnax#2710"):
+            cmd_in = str(message.content).split()
+            if(cmd_in[0] == "!addtxtcmd"):
+                text_commands[cmd_in[1]] = ''.join(w+' ' for w in cmd_in[2:]).strip()
+                temp_json = json.dumps(text_commands)
+                temp_json = json.loads(temp_json)
+                with open('text_commands.json','w') as f:
+                    json.dump(temp_json, f,indent=4)
+            else:
+                await client.send_message(message.channel, "Unrecognized command: "+cmd_in[0])
+        else:
+            await client.send_message(message.channel, "You don't have access, pleb.")
+    if(str(message.content) == "?text"):
+        commands = 'Available text commands:\n';
+        for k, v in text_commands.items():
+            commands += "!"+k+"\n"
+        await client.send_message(message.channel, commands)
+    if(message.content.startswith('!')):
+        command = str(message.content).split()[0][1:]
+        if(command in text_commands):
+            await client.send_message(message.channel, text_commands[command])
     if(message.content.startswith('!patchnotes')):
         url = 'http://us.battle.net/heroes/en/blog/'
         patch_note_base_url = 'http://us.battle.net'
@@ -67,4 +85,5 @@ async def on_message(message):
     if(message.content.startswith('!commands')):
         await client.send_message(message.channel, 'Available commands:\n!ping\n!gameplan\n!whothrew\n!patchnotes')
 
+text_commands = json_loader.get_text_commands_json()
 client.run('MzYzMTEzNDY0NTg0OTk0ODE4.DK8fZw.u69xqQC76fYfozoKkGfZueaUgtc')
