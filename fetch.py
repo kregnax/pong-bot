@@ -28,4 +28,40 @@ def get_hero_patch_notes(hero, next_cmd=False):
         notes_list = []
         for elem in soup.find("div", class_="panel panel-primary").find_all("li"):
             notes_list.append(elem.get_text())
+    else:
+        return "Not a valid hero"
     return notes_list
+
+def get_weak_counters(hero):
+    if hero.lower() in get_hero_list():
+        url = 'https://www.heroescounters.com/hero/{}'.format(hero)
+        page = urlopen(url)
+        soup = BeautifulSoup(page, 'html.parser')
+        #soup.title.string
+        popularBuild = soup.find('ul',class_='counterlist counterlist-bad')
+        count = 0
+        hero_counter_list = []
+        for link in popularBuild.findAll('a'):
+            count+=1
+            if count %2 == 0 and count < 11:
+                hero_counter_list.append(link.string)
+    else:
+        return "Not a valid hero"
+    return hero_counter_list
+    
+def get_strong_counters(hero):
+    if hero.lower() in get_hero_list():
+        url = 'https://www.heroescounters.com/hero/{}'.format(hero)
+        page = urlopen(url)
+        soup = BeautifulSoup(page, 'html.parser')
+        #soup.title.string
+        popularBuild = soup.find('ul',class_='counterlist counterlist-good')
+        count = 0
+        hero_counter_list = []
+        for link in popularBuild.findAll('a'):
+            count+=1
+            if count %2 == 0 and count < 11:
+                hero_counter_list.append(link.string)
+    else:
+        return "Not a valid hero"
+    return hero_counter_list
