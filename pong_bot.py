@@ -5,16 +5,19 @@ import urllib.request
 import random
 import re
 import sys
-from os import listdir
+import os
 import json
 import tempfile
 import json_loader
+import requests
+from voice_manager import VoiceManager
 
 client = discord.Client()
 configs = json_loader.get_json("config.json")
 text_commands = json_loader.get_json("text_commands.json")
 voice_commands = json_loader.get_json("voice_commands.json")
 voice_files_location = configs["voice"]["directory_name"]
+voice_manager = VoiceManager(client, voice_files_location)
 
 @client.event
 async def on_ready():
@@ -31,49 +34,7 @@ async def on_ready():
 async def on_message(message):
     #TODO: use message.attachments to save images with text command
     if(message.content.startswith("!voice")):
-        commands = str(message.content).split()
-        command_length = len(commands)
-        if(commands[0] == "!voice" and command_length >= 2):
-            owner = str(commands[1])
-            if(owner in voice_commands):
-                available_lines = voice_commands[owner]["filename"]
-                try:
-                    index = int(commands[2])-1
-                except:
-                    index = 9999
-                if(command_length >= 3 and abs(index) <= len(available_lines)):
-                    file_to_play = str(voice_files_location)+"/"+owner+"/"+str(available_lines[index])
-                else:
-                    file_to_play = str(voice_files_location) +"/"+owner+"/"+str(random.choice(available_lines))
-                author = message.author
-                v_channel = author.voice.voice_channel
-                if(v_channel is not None):
-                    voice = await client.join_voice_channel(v_channel)
-                    player = voice.create_ffmpeg_player(file_to_play)
-                    player.start()
-                    while True:
-                        try:
-                            if player.is_done():
-                                await voice.disconnect()
-                                break
-                        except:
-                            break;
-            else:
-                await client.send_message(message.channel, "No category "+ owner)
-                await client.send_message(message.channel, "?voice")
-                author = message.author
-                v_channel = author.voice.voice_channel
-                if(v_channel is not None):
-                    voice = await client.join_voice_channel(v_channel)
-                    player = voice.create_ffmpeg_player('.voice_lines/misc/alan_garbage_water.mp3')
-                    player.start()
-                    while True:
-                        try:
-                            if player.is_done():
-                                await voice.disconnect()
-                                break
-                        except:
-                            break;
+        await voice_manager.play_audio(message)
     if(message.content.startswith("!addtxtcmd")):
         if(str(message.author) == "kregnax#2710"):
             cmd_in = str(message.content).split()
@@ -145,21 +106,32 @@ async def on_message(message):
                         break
                 except:
                     break;
-    if(message.content.startswith('!hagay')):
+    if(message.content.startswith('!tts')):
         author = message.author
+        input_text = ' '.join(str(message.content).split()[1:])
         v_channel = author.voice.voice_channel
         if(v_channel is not None):
             voice = await client.join_voice_channel(v_channel)
-            player = voice.create_ffmpeg_player('.voice_lines/misc/hagay.mp3')
+            r = requests.get('https://biffthecamel.herokuapp.com/tts?t={}'.format(input_text), stream=True)
+            local_filename = '.temp/tempaudio.mp3'
+            with open(local_filename, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=1024):
+                    if chunk: # filter out keep-alive new chunks
+                        f.write(chunk)
+            player = voice.create_ffmpeg_player(local_filename)
             player.start()
             while True:
                 try:
                     if player.is_done():
                         await voice.disconnect()
+                        os.remove(local_filename)
                         break
                 except:
+                    os.remove(local_filename)
                     break;
+            if(os.path.isfile(local_filename)):
+                os.remove(local_filename)
     if(message.content.startswith('!commands')):
         await client.send_message(message.channel, 'Available commands:\n!ping\n!gameplan\n!whothrew\n!patchnotes')
 
-client.run('MzYzMTEzNDY0NTg0OTk0ODE4.DK8fZw.u69xqQC76fYfozoKkGfZueaUgtc')
+client.run('MzYzMTEzNDY0NTg0OTk0ODE4.DLMxNA.K-z0tleRpvrNykggsmUP5VZ56SI')
