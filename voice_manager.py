@@ -13,12 +13,17 @@ class VoiceManager(object):
         self.voice_files_location = voice_files_location
         self.voice_commands = json_loader.get_json("voice_commands.json")
 
-    async def play_audio(self, message):
+    async def play_audio(self, message, direct_path_to_file = None, volume = None):
         author = message.author
         v_channel = author.voice.voice_channel
         if(v_channel is not None):
             voice = await self.client.join_voice_channel(v_channel)
-            player = voice.create_ffmpeg_player(self.get_path_to_selected_file(message))
+            if(direct_path_to_file is None):
+                player = voice.create_ffmpeg_player(self.get_path_to_selected_file(message))
+            else:
+                player = voice.create_ffmpeg_player(direct_path_to_file)
+            if(volume is not None):
+                player.volume = volume
             player.start()
             while True:
                 try:

@@ -37,7 +37,7 @@ async def on_message(message):
         await voice_manager.play_audio(message)
     if(message.content.startswith("!addtxtcmd")):
         if(str(message.author) == "kregnax#2710"):
-            cmd_in = str(message.content).split()
+            cmd_in = message.content.split()
             if(cmd_in[0] == "!addtxtcmd"):
                 text_commands[cmd_in[1]] = ''.join(w+' ' for w in cmd_in[2:]).strip()
                 temp_json = json.dumps(text_commands)
@@ -45,21 +45,21 @@ async def on_message(message):
                 with open('text_commands.json','w') as f:
                     json.dump(temp_json, f,indent=4)
             else:
-                await client.send_message(message.channel, "Unrecognized command: "+cmd_in[0])
+                await client.send_message(message.channel, "Unrecognized command: {}".format(cmd_in[0]))
         else:
             await client.send_message(message.channel, "You don't have access, pleb.")
-    if(str(message.content) == "?text"):
+    if(message.content == "?text"):
         commands = 'Available text commands:\n';
         for k, v in text_commands.items():
-            commands += "!"+k+"\n"
+            commands += "!{}\n".format(k)
         await client.send_message(message.channel, commands)
-    if(message.content.startswith("?voice")):
+    if(message.content == "?voice"):
         commands = 'Available voice lines:\n';
         for owner, v in voice_commands.items():
-            commands += "\t"+owner+"\n"
+            commands += "\t{}\n".format(owner)
             for ind, filename in v.items():
                 for index, file in enumerate(filename):
-                    commands += "\t\t"+str(index+1)+": "+file+"\n"
+                    commands += "\t\t{}: {}\n".format(str(index+1), file)
         commands += ("Typing !voice followed by a category (e.g. !voice genji) will "+
         "play a random file from that category. To play a specific file, type "+
         "!voice category followed by the index of the file. !voice genji 5 will play "+
@@ -77,60 +77,31 @@ async def on_message(message):
         link = soup.find('a', href = re.compile('heroes-of-the-storm-patch-notes'))['href']
         patch_notes_link = patch_note_base_url + link
         await client.send_message(message.channel, patch_notes_link)
-    if(message.content.startswith('!genjivoice')):
-        author = message.author
-        v_channel = author.voice.voice_channel
-        if(v_channel is not None):
-            voice = await client.join_voice_channel(v_channel)
-            player = voice.create_ffmpeg_player('.voice_lines/genji/mada_mada.mp3')
-            player.start()
-            while True:
-                try:
-                    if player.is_done():
-                        await voice.disconnect()
-                        break
-                except:
-                    break;
     if(message.content.startswith('!garbagewater')):
-        author = message.author
-        v_channel = author.voice.voice_channel
-        if(v_channel is not None):
-            voice = await client.join_voice_channel(v_channel)
-            player = voice.create_ffmpeg_player('.voice_lines/special/garbagewater.mp3')
-            player.volume = 0.15
-            player.start()
-            while True:
-                try:
-                    if player.is_done():
-                        await voice.disconnect()
-                        break
-                except:
-                    break;
+        await voice_manager.play_audio(message, '.voice_lines/special/garbagewater.mp3', .15)
+    if(message.content.startswith('!momma')):
+        url = 'https://biffthecamel.herokuapp.com/yomomma'
+        r = requests.get(url)
+        joke = r.text
+        input_text = ' '.join(message.content.split()[1:])
+        rq = requests.get('https://biffthecamel.herokuapp.com/tts?t={}'.format(joke), stream=True)
+        local_file_path = '.temp/tempaudio.mp3'
+        with open(local_file_path, 'wb') as f:
+            for chunk in rq.iter_content(chunk_size=1024):
+                if chunk: # filter out keep-alive new chunks
+                    f.write(chunk)
+        await voice_manager.play_audio(message, local_file_path)
+        os.remove(local_file_path)
     if(message.content.startswith('!tts')):
-        author = message.author
-        input_text = ' '.join(str(message.content).split()[1:])
-        v_channel = author.voice.voice_channel
-        if(v_channel is not None):
-            voice = await client.join_voice_channel(v_channel)
-            r = requests.get('https://biffthecamel.herokuapp.com/tts?t={}'.format(input_text), stream=True)
-            local_filename = '.temp/tempaudio.mp3'
-            with open(local_filename, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=1024):
-                    if chunk: # filter out keep-alive new chunks
-                        f.write(chunk)
-            player = voice.create_ffmpeg_player(local_filename)
-            player.start()
-            while True:
-                try:
-                    if player.is_done():
-                        await voice.disconnect()
-                        os.remove(local_filename)
-                        break
-                except:
-                    os.remove(local_filename)
-                    break;
-            if(os.path.isfile(local_filename)):
-                os.remove(local_filename)
+        input_text = ' '.join(message.content.split()[1:])
+        r = requests.get('https://biffthecamel.herokuapp.com/tts?t={}'.format(input_text), stream=True)
+        local_file_path = '.temp/tempaudio.mp3'
+        with open(local_file_path, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk: # filter out keep-alive new chunks
+                    f.write(chunk)
+        await voice_manager.play_audio(message, local_file_path)
+        os.remove(local_file_path)
     if(message.content.startswith('!commands')):
         await client.send_message(message.channel, 'Available commands:\n!ping\n!gameplan\n!whothrew\n!patchnotes')
 
