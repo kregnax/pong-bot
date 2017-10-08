@@ -4,6 +4,8 @@ import json
 import json_loader
 import sys
 import random
+import os
+
 
 class VoiceManager(object):
     """This class manages the creation of voice players for the bot"""
@@ -12,6 +14,19 @@ class VoiceManager(object):
         self.client = client
         self.voice_files_location = voice_files_location
         self.voice_commands = json_loader.get_json("voice_commands.json")
+        self.voice_queue = asyncio.Queue()
+        self.last_voice_command = ""
+
+    async def add_to_queue(self, message, direct_path_to_file = None, volume = None):
+            await self.voice_queue.put((message, direct_path_to_file, volume))
+
+    async def consume_queue(self):
+        await self.client.wait_until_ready()
+        print("Initiating queue loop...")
+        while not self.client.is_closed:
+            next_comm = await self.voice_queue.get()
+            await self.play_audio(next_comm[0], next_comm[1], next_comm[2])
+
 
     async def play_audio(self, message, direct_path_to_file = None, volume = None):
         author = message.author
@@ -28,6 +43,8 @@ class VoiceManager(object):
             while True:
                 try:
                     if player.is_done():
+                        if(direct_path_to_file.startswith('.temp')):
+                            os.remove(direct_path_to_file)
                         await voice.disconnect()
                         break
                 except:
@@ -45,8 +62,13 @@ class VoiceManager(object):
                 except:
                     index = 9999
                 selected_line = ''
-                if(command_length >= 3 and abs(index) <= len(available_lines)):
+                if(command_length >= 3 and abs(index) <= len(available_lines)-1):
                     selected_line = str(available_lines[index])
                 else:
                     selected_line = str(random.choice(available_lines))
                 return '{}/{}/{}'.format(self.voice_files_location, owner, selected_line)
+
+    def getLastVoiceCommand(self):
+        return self.last_voice_command
+    def setLastVoiceCommand(self, last_voice_command):
+        self.last_voice_command = last_voice_command

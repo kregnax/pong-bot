@@ -10,6 +10,7 @@ import json
 import tempfile
 import json_loader
 import requests
+import time
 from voice_manager import VoiceManager
 
 client = discord.Client()
@@ -18,6 +19,7 @@ text_commands = json_loader.get_json("text_commands.json")
 voice_commands = json_loader.get_json("voice_commands.json")
 voice_files_location = configs["voice"]["directory_name"]
 voice_manager = VoiceManager(client, voice_files_location)
+last_command = ""
 
 @client.event
 async def on_ready():
@@ -34,7 +36,8 @@ async def on_ready():
 async def on_message(message):
     #TODO: use message.attachments to save images with text command
     if(message.content.startswith("!voice")):
-        await voice_manager.play_audio(message)
+        await voice_manager.add_to_queue(message)
+        #await voice_manager.play_audio(message)
     if(message.content.startswith("!addtxtcmd")):
         if(str(message.author) == "kregnax#2710"):
             cmd_in = message.content.split()
@@ -66,6 +69,7 @@ async def on_message(message):
         "'The Dragon Becomes Me!'")
         await client.send_message(message.channel, commands)
     if(message.content.startswith('!')):
+        await client.delete_message(message)
         command = str(message.content).split()[0][1:]
         if(command in text_commands):
             await client.send_message(message.channel, text_commands[command])
@@ -85,24 +89,22 @@ async def on_message(message):
         joke = r.text
         input_text = ' '.join(message.content.split()[1:])
         rq = requests.get('https://biffthecamel.herokuapp.com/tts?t={}'.format(joke), stream=True)
-        local_file_path = '.temp/tempaudio.mp3'
+        local_file_path = '.temp/{}.mp3'.format(int(time.time()))
         with open(local_file_path, 'wb') as f:
             for chunk in rq.iter_content(chunk_size=1024):
                 if chunk: # filter out keep-alive new chunks
                     f.write(chunk)
-        await voice_manager.play_audio(message, local_file_path)
-        os.remove(local_file_path)
+            f.close()
+        await voice_manager.add_to_queue(message, local_file_path)
     if(message.content.startswith('!tts')):
         input_text = ' '.join(message.content.split()[1:])
         r = requests.get('https://biffthecamel.herokuapp.com/tts?t={}'.format(input_text), stream=True)
-        local_file_path = '.temp/tempaudio.mp3'
+        local_file_path = '.temp/{}.mp3'.format(int(time.time()))
         with open(local_file_path, 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024):
-                if chunk: # filter out keep-alive new chunks
+                if chunk:
                     f.write(chunk)
-        await voice_manager.play_audio(message, local_file_path)
-        os.remove(local_file_path)
-    if(message.content.startswith('!commands')):
-        await client.send_message(message.channel, 'Available commands:\n!ping\n!gameplan\n!whothrew\n!patchnotes')
-
+            f.close()
+        await voice_manager.add_to_queue(message, local_file_path)
+client.loop.create_task(voice_manager.consume_queue())
 client.run('MzYzMTEzNDY0NTg0OTk0ODE4.DLMxNA.K-z0tleRpvrNykggsmUP5VZ56SI')
