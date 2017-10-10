@@ -3,7 +3,8 @@
         "id": 1,
         "name": "the-butcher",
         "alias": [
-            "butcher"
+            "butcher",
+			"thebutcher"
         ],
         "build1": [],
         "build2": [],
@@ -7338,7 +7339,8 @@
         "alias": [
             "hammer",
             "sgt. hammer",
-            "sgt hammer"
+            "sgt hammer",
+			"sgthammer"
         ],
         "build1": [],
         "build2": [],
@@ -8586,7 +8588,8 @@
         "name": "lt-morales",
         "alias": [
             "lt. morales",
-            "lt morales"
+            "lt morales",
+			"ltmorales"
         ],
         "build1": [],
         "build2": [],
@@ -10524,7 +10527,8 @@
         "id": 5,
         "name": "the-lost-vikings",
         "alias": [
-            "the lost vikings"
+            "the lost vikings",
+			"thelostvikings"
         ],
         "build1": [],
         "build2": [],
