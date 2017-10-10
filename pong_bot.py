@@ -19,7 +19,7 @@ text_commands = json_loader.get_json("text_commands.json")
 voice_commands = json_loader.get_json("voice_commands.json")
 voice_files_location = configs["voice"]["directory_name"]
 voice_manager = VoiceManager(client, voice_files_location)
-last_command = ""
+
 
 @client.event
 async def on_ready():
@@ -37,7 +37,6 @@ async def on_message(message):
     #TODO: use message.attachments to save images with text command
     if(message.content.startswith("!voice")):
         await voice_manager.add_to_queue(message)
-        #await voice_manager.play_audio(message)
     if(message.content.startswith("!addtxtcmd")):
         if(str(message.author) == "kregnax#2710"):
             cmd_in = message.content.split()

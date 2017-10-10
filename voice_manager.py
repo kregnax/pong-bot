@@ -43,7 +43,7 @@ class VoiceManager(object):
             while True:
                 try:
                     if player.is_done():
-                        if(direct_path_to_file.startswith('.temp')):
+                        if(direct_path_to_file is not None and direct_path_to_file.startswith('.temp')):
                             os.remove(direct_path_to_file)
                         await voice.disconnect()
                         break
