@@ -26,6 +26,7 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('--------')
+    #print(fetch.test_print_all())
     if sys.maxsize > 2**32:
         discord.opus.load_opus('libopus-0.x64.dll')
     else:
@@ -67,10 +68,22 @@ async def on_message(message):
         "'The Dragon Becomes Me!'")
         await client.send_message(message.channel, commands)
     if(message.content.startswith('!')):
-        await client.delete_message(message)
+        #await client.delete_message(message)
         command = str(message.content).split()[0][1:]
         if(command in text_commands):
             await client.send_message(message.channel, text_commands[command])
+    if(message.content.startswith('!strong')):
+        hero = message.content.split()[1]
+        counters = fetch.get_strong_counters(hero)
+        await client.send_message(message.channel, counters)
+    if(message.content.startswith('!weak')):
+        hero = message.content.split()[1]
+        counters = fetch.get_weak_counters(hero)
+        await client.send_message(message.channel, counters)
+    if(message.content.startswith('!patchfor')):
+        hero = message.content.split()[1]
+        counters = fetch.get_hero_patch_notes(hero)
+        await client.send_message(message.channel, counters)
     if(message.content.startswith('!patchnotes')):
         patch_notes_link = fetch.get_latest_patch_notes()
         patch_notes_link = '3 most recent patches:\n'+patch_notes_link

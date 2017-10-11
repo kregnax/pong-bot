@@ -42,13 +42,13 @@ def get_hero_patch_notes(hero, next_cmd=False):
             notes_list.append(elem.get_text())
     else:
         return "Not a valid hero"
-    return notes_list
+    return '\n'.join(notes_list)
 
 def get_weak_counters(hero):
     if hero.lower() in get_hero_list():
         url = 'https://www.heroescounters.com/hero/{}'.format(hero)
-        page = urlopen(url)
-        soup = BeautifulSoup(page, 'html.parser')
+        page = requests.get(url, verify=False)
+        soup = BeautifulSoup(page.text, 'html.parser')
         #soup.title.string
         popularBuild = soup.find('ul',class_='counterlist counterlist-bad')
         count = 0
@@ -59,13 +59,13 @@ def get_weak_counters(hero):
                 hero_counter_list.append(link.string)
     else:
         return "Not a valid hero"
-    return hero_counter_list
+    return '\n'.join(hero_counter_list)
 
 def get_strong_counters(hero):
     if hero.lower() in get_hero_list():
         url = 'https://www.heroescounters.com/hero/{}'.format(hero)
-        page = urlopen(url)
-        soup = BeautifulSoup(page, 'html.parser')
+        page = requests.get(url, verify=False)
+        soup = BeautifulSoup(page.text, 'html.parser')
         #soup.title.string
         popularBuild = soup.find('ul',class_='counterlist counterlist-good')
         count = 0
@@ -76,4 +76,10 @@ def get_strong_counters(hero):
                 hero_counter_list.append(link.string)
     else:
         return "Not a valid hero"
-    return hero_counter_list
+    return '\n'.join(hero_counter_list)
+
+def test_print_all():
+    print(get_strong_counters('tracer'))
+    print(get_weak_counters('tracer'))
+    print(get_hero_patch_notes('tracer'))
+    print(get_hero_list())
