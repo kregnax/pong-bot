@@ -2,6 +2,18 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import json
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+def get_latest_patch_notes():
+    links = []
+    url = 'https://heroespatchnotes.com/patch/'
+    page = requests.get(url, verify=False)
+    soup = BeautifulSoup(page.text, 'html.parser')
+    for a in soup.findAll('a', attrs={'class':'official'}, limit=3):
+        links.append(a.get('href'))
+    link_string = '\n'.join(links)
+    return link_string
 
 def get_hero_list():
     '''Returns a list of current heroes from battlenet'''
@@ -48,7 +60,7 @@ def get_weak_counters(hero):
     else:
         return "Not a valid hero"
     return hero_counter_list
-    
+
 def get_strong_counters(hero):
     if hero.lower() in get_hero_list():
         url = 'https://www.heroescounters.com/hero/{}'.format(hero)

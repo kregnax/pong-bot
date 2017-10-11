@@ -7,8 +7,8 @@ import re
 import sys
 import os
 import json
-import tempfile
 import json_loader
+import fetch
 import requests
 import time
 from voice_manager import VoiceManager
@@ -19,7 +19,6 @@ text_commands = json_loader.get_json("text_commands.json")
 voice_commands = json_loader.get_json("voice_commands.json")
 voice_files_location = configs["voice"]["directory_name"]
 voice_manager = VoiceManager(client, voice_files_location)
-
 
 @client.event
 async def on_ready():
@@ -73,12 +72,8 @@ async def on_message(message):
         if(command in text_commands):
             await client.send_message(message.channel, text_commands[command])
     if(message.content.startswith('!patchnotes')):
-        url = 'http://us.battle.net/heroes/en/blog/'
-        patch_note_base_url = 'http://us.battle.net'
-        page = urllib.request.urlopen(url)
-        soup = BeautifulSoup(page, 'html.parser')
-        link = soup.find('a', href = re.compile('heroes-of-the-storm-patch-notes'))['href']
-        patch_notes_link = patch_note_base_url + link
+        patch_notes_link = fetch.get_latest_patch_notes()
+        patch_notes_link = '3 most recent patches:\n'+patch_notes_link
         await client.send_message(message.channel, patch_notes_link)
     if(message.content.startswith('!garbagewater')):
         await voice_manager.play_audio(message, '.voice_lines/special/garbagewater.mp3', .15)
