@@ -38,6 +38,11 @@ async def on_ready():
 @client.event
 async def on_message(message):
     #TODO: use message.attachments to save images with text command
+    if(message.content.startswith("!build")):
+        hero = message.content.split()[1]
+        print(hero)
+        builds = build_builder.get_builds_for_hero(hero)
+        await client.send_message(message.channel, builds)
     if(message.content.startswith("!testbutch")):
         final_build = ''
         talents = butcher["butcher"]["talents"]
