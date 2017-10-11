@@ -2,10 +2,12 @@ import json
 import json_loader
 
 class BuildBuilder(object):
-
     def __init__(self):
         self.heroes_json = json_loader.get_json("butcher.json")
 
+    #TODO: break this out into smaller functions so selection of
+    #       builds can be more granular, i.e. create a
+    #       get_build_by_name()
     def get_builds_for_hero(self, hero):
         if(hero not in self.heroes_json):
             return 'Cannot find hero {}'.format(hero)
@@ -21,3 +23,6 @@ class BuildBuilder(object):
                     if(talent["tier"] == tier and talent["choice"] == choice):
                         final_build += '\t{}\n'.format(talent["name"])
         return final_build
+
+    #TODO: get talents by name, maybe use string comparison with 85%
+    #       threshhold of name to return relevant talents (see reddit bot)
