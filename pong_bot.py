@@ -12,13 +12,16 @@ import fetch
 import requests
 import time
 from voice_manager import VoiceManager
+from hots_build_builder import BuildBuilder
 
 client = discord.Client()
 configs = json_loader.get_json("config.json")
 text_commands = json_loader.get_json("text_commands.json")
 voice_commands = json_loader.get_json("voice_commands.json")
+butcher = json_loader.get_json("butcher.json")
 voice_files_location = configs["voice"]["directory_name"]
 voice_manager = VoiceManager(client, voice_files_location)
+build_builder = BuildBuilder()
 
 @client.event
 async def on_ready():
@@ -35,6 +38,16 @@ async def on_ready():
 @client.event
 async def on_message(message):
     #TODO: use message.attachments to save images with text command
+    if(message.content.startswith("!testbutch")):
+        final_build = ''
+        talents = butcher["butcher"]["talents"]
+        build = butcher["butcher"]["builds"]["Lamb to the Slaughter"]
+        for i, choice in enumerate(build):
+            tier = i+1
+            for talent in talents:
+                if(talent["tier"] == tier and talent["choice"] == choice):
+                    final_build += (talent["name"]+"\n")
+        await client.send_message(message.channel, final_build)
     if(message.content.startswith("!voice")):
         await voice_manager.add_to_queue(message)
     if(message.content.startswith("!addtxtcmd")):

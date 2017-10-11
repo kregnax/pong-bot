@@ -1,0 +1,250 @@
+{
+    "butcher":
+    {
+        "id": 1,
+        "alias":
+        {
+            "hots-cntr": "thebutcher",
+            "hots-pch-nts": "butcher",
+            "icy-veins": "the-butcher",
+            "storm-spy": 55
+        },
+        "builds":
+        {
+            "Hamstring": [1,1,1,1,3,2,4],
+            "Lamb to the Slaughter": [1,2,3,2,3,2,2]
+        },
+        "talents": [
+        {
+            "tier": 1,
+            "choice": 1,
+            "name": "Invigoration",
+            "description": "If Hamstring hits a Hero, half of the Mana cost is refunded and the cooldown is reduced by 1 second.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 1,
+            "choice": 2,
+            "name": "Block",
+            "description": "Every 5 seconds, gain 75 Physical Armor against the next enemy Hero Basic Attack, reducing the damage taken by 75%. Stores up to 2 charges.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_block.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_block.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 1,
+            "choice": 3,
+            "name": "Chop Meat",
+            "description": "Increases Hamstring damage by 100% to Minions and Mercenaries.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring_var1.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring_var1.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 2,
+            "choice": 1,
+            "name": "Flail Axe",
+            "description": "Increases the length of Hamstring by 40%.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 2,
+            "choice": 2,
+            "name": "Unrelenting Pursuit",
+            "description": "Reduces the cooldown of Ruthless Onslaught by 33.3333% upon impact.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_fullboar.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_fullboar.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 2,
+            "choice": 3,
+            "name": "Cheap Shot",
+            "description": "Hamstring does 100% more damage to targets affected by a Slow, Root, or Stun.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring_var1.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring_var1.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 3,
+            "choice": 1,
+            "name": "Insatiable Blade",
+            "description": "While facing the branded enemy, The Butcher's Movement Speed is increased by 25%.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_tenderize.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_tenderize.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 3,
+            "choice": 2,
+            "name": "Victuals",
+            "description": "Every time a nearby enemy minion dies, The Butcher heals 5% of his maximum health.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_freshmeat.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_freshmeat.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 3,
+            "choice": 3,
+            "name": "Meat Shield",
+            "description": "When Ruthless Onslaught impacts an enemy Hero, The Butcher gains 50 Spell Armor for 2.5 seconds, reducing Ability Damage taken by 50%.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_fullboar.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_fullboar.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 4,
+            "choice": 1,
+            "name": "Furnace Blast",
+            "description": "After a 3 second delay, fire explodes around The Butcher dealing 500 damage to enemies. Can be cast while using Ruthless Onslaught.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_furnaceblast.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_furnaceblast.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 4,
+            "choice": 2,
+            "name": "Lamb to the Slaughter",
+            "description": "Throw a hitching post that attaches to the nearest enemy Hero after a 1 second delay. This deals 171 damage and causes the enemy to be chained to the post and Silenced for 3 seconds.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_lambtotheslaughter.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_lambtotheslaughter.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 5,
+            "choice": 1,
+            "name": "Cleaver",
+            "description": "Basic Attacks deal 35% of The Butcher's Basic Attack Damage in an area around the target.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_autoattack_aoe.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_autoattack_aoe.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 5,
+            "choice": 2,
+            "name": "Savage Charge",
+            "description": "Ruthless Onslaught deals bonus damage to Heroes equal to 10% of their maximum Health.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_fullboar.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_fullboar.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 5,
+            "choice": 3,
+            "name": "Brutal Strike",
+            "description": "After using Hamstring, The Butcher's next 3 Basic Attacks within 5 seconds deal an additional 15% damage.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 6,
+            "choice": 1,
+            "name": "Crippling Slam",
+            "description": "Hamstring's slow no longer fades out, and the duration is increased by 30%.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_hamstring.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 6,
+            "choice": 2,
+            "name": "Enraged",
+            "description": "While below 50% of his maximum Health, taking damage causes The Butcher to become Enraged for 10 seconds, gaining 40% Attack Speed and 15 Armor, reducing damage taken by 15%. This effect has a 25 second cooldown.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_enraged.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_enraged.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 6,
+            "choice": 3,
+            "name": "Blood Frenzy",
+            "description": "Basic Attacks against enemy Heroes grant 5% increased Attack and Movement Speed for 3 seconds, up to 25%.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_autoattack_speed.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_autoattack_speed.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 7,
+            "choice": 1,
+            "name": "Fires of Hell",
+            "description": "Furnace Blast explodes a second time 3 seconds after the initial explosion.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_furnaceblast.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_furnaceblast.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 7,
+            "choice": 2,
+            "name": "Slaughterhouse",
+            "description": "Lamb to the Slaughter now chains all enemy Heroes in range.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_lambtotheslaughter.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_butcher_lambtotheslaughter.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 7,
+            "choice": 3,
+            "name": "Nexus Blades",
+            "description": "Basic Attacks deal 20% more damage and slow enemy Movement Speed by 20% for 1 second.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_autoattack_slow.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_autoattack_slow.png.64x64_q85.jpg"
+            }
+        },
+        {
+            "tier": 7,
+            "choice": 4,
+            "name": "Bolt of the Storm",
+            "description": "Activate to teleport to a nearby location.",
+            "icon":
+            {
+                "small": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_boltofthestorm.png.36x36_q85.jpg",
+                "meduim": "https://c.masterleague.net/media/talent/icon/storm_ui_icon_talent_boltofthestorm.png.64x64_q85.jpg"
+            }
+        }]
+    }
+}
