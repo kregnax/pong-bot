@@ -17,7 +17,7 @@ from hots_build_builder import BuildBuilder
 client = discord.Client()
 configs = json_loader.get_json("config.json")
 text_commands = json_loader.get_json("text_commands.json")
-butcher = json_loader.get_json("butcher.json")
+butcher = json_loader.get_json("heroes.json")
 voice_files_location = configs["voice"]["directory_name"]
 voice_manager = VoiceManager(client, voice_files_location)
 voice_commands = voice_manager.get_voice_commands()
@@ -43,16 +43,16 @@ async def on_message(message):
         print(hero)
         builds = build_builder.get_builds_for_hero(hero)
         await client.send_message(message.channel, builds)
-    if(message.content.startswith("!testbutch")):
-        final_build = ''
-        talents = butcher["butcher"]["talents"]
-        build = butcher["butcher"]["builds"]["Lamb to the Slaughter"]
-        for i, choice in enumerate(build):
-            tier = i+1
-            for talent in talents:
-                if(talent["tier"] == tier and talent["choice"] == choice):
-                    final_build += (talent["name"]+"\n")
-        await client.send_message(message.channel, final_build)
+#    if(message.content.startswith("!testbutch")):
+#        final_build = ''
+#        talents = butcher["butcher"]["talents"]
+#        build = butcher["butcher"]["builds"]["Lamb to the Slaughter"]
+#        for i, choice in enumerate(build):
+#            tier = i+1
+#            for talent in talents:
+#                if(talent["tier"] == tier and talent["choice"] == choice):
+#                    final_build += (talent["name"]+"\n")
+#        await client.send_message(message.channel, final_build)
     if(message.content.startswith("!voice")):
         await voice_manager.add_to_queue(message)
     if(message.content.startswith("!addtxtcmd")):

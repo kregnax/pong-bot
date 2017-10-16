@@ -3,7 +3,7 @@ import json_loader
 
 class BuildBuilder(object):
     def __init__(self):
-        self.heroes_json = json_loader.get_json("butcher.json")
+        self.heroes_json = json_loader.get_json("heroes.json")
 
     #TODO: break this out into smaller functions so selection of
     #       builds can be more granular, i.e. create a
