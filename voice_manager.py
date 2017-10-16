@@ -60,8 +60,11 @@ class VoiceManager(object):
                 selected_line = ''
                 if(command_length >= 3):
                     alias = commands[2]
-                    print('{} {}'.format(owner, alias))
-                    selected_line = self.voice_commands[owner]["filename"][alias]
+                    try:
+                        selected_line = self.voice_commands[owner]["filename"][alias]
+                    except:
+                        random_line = random.choice(list(self.voice_commands[owner]["filename"].keys()))
+                        selected_line = self.voice_commands[owner]["filename"][random_line]
                 else:
                     random_line = random.choice(list(self.voice_commands[owner]["filename"].keys()))
                     selected_line = self.voice_commands[owner]["filename"][random_line]

@@ -77,6 +77,7 @@ async def on_message(message):
         commands = voice_manager.get_voice_command_help()
         await client.send_message(message.channel, commands)
     if(message.content.startswith('!')):
+        #await client.delete_message(message)
         command = str(message.content).split()[0][1:]
         if(command in text_commands):
             await client.send_message(message.channel, text_commands[command])
