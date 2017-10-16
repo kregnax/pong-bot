@@ -17,10 +17,10 @@ from hots_build_builder import BuildBuilder
 client = discord.Client()
 configs = json_loader.get_json("config.json")
 text_commands = json_loader.get_json("text_commands.json")
-voice_commands = json_loader.get_json("voice_commands.json")
 butcher = json_loader.get_json("butcher.json")
 voice_files_location = configs["voice"]["directory_name"]
 voice_manager = VoiceManager(client, voice_files_location)
+voice_commands = voice_manager.get_voice_commands()
 build_builder = BuildBuilder()
 
 @client.event
@@ -74,19 +74,9 @@ async def on_message(message):
             commands += "!{}\n".format(k)
         await client.send_message(message.channel, commands)
     if(message.content == "?voice"):
-        commands = 'Available voice lines:\n';
-        for owner, v in voice_commands.items():
-            commands += "\t{}\n".format(owner)
-            for ind, filename in v.items():
-                for index, file in enumerate(filename):
-                    commands += "\t\t{}: {}\n".format(str(index+1), file)
-        commands += ("Typing !voice followed by a category (e.g. !voice genji) will "+
-        "play a random file from that category. To play a specific file, type "+
-        "!voice category followed by the index of the file. !voice genji 5 will play "+
-        "'The Dragon Becomes Me!'")
+        commands = voice_manager.get_voice_command_help()
         await client.send_message(message.channel, commands)
     if(message.content.startswith('!')):
-        #await client.delete_message(message)
         command = str(message.content).split()[0][1:]
         if(command in text_commands):
             await client.send_message(message.channel, text_commands[command])
