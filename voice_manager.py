@@ -5,6 +5,7 @@ import json_loader
 import sys
 import random
 import os
+import numbers
 
 
 class VoiceManager(object):
@@ -13,7 +14,7 @@ class VoiceManager(object):
     def __init__(self, client, voice_files_location):
         self.client = client
         self.voice_files_location = voice_files_location
-        self.voice_commands = json_loader.get_json("voice_commands.json")
+        self.voice_commands = json_loader.get_json("voice_commands_alias.json")
         self.voice_queue = asyncio.Queue()
         self.last_voice_command = ""
 
@@ -56,19 +57,31 @@ class VoiceManager(object):
         if(commands[0] == "!voice" and command_length >= 2):
             owner = str(commands[1])
             if(owner in self.voice_commands):
-                available_lines = self.voice_commands[owner]["filename"]
-                try:
-                    index = int(commands[2])-1
-                except:
-                    index = 9999
                 selected_line = ''
-                if(command_length >= 3 and abs(index) <= len(available_lines)-1):
-                    selected_line = str(available_lines[index])
+                if(command_length >= 3):
+                    alias = commands[2]
+                    try:
+                        selected_line = self.voice_commands[owner]["filename"][alias]
+                    except:
+                        random_line = random.choice(list(self.voice_commands[owner]["filename"].keys()))
+                        selected_line = self.voice_commands[owner]["filename"][random_line]
                 else:
-                    selected_line = str(random.choice(available_lines))
+                    random_line = random.choice(list(self.voice_commands[owner]["filename"].keys()))
+                    selected_line = self.voice_commands[owner]["filename"][random_line]
                 return '{}/{}/{}'.format(self.voice_files_location, owner, selected_line)
 
-    def getLastVoiceCommand(self):
-        return self.last_voice_command
-    def setLastVoiceCommand(self, last_voice_command):
-        self.last_voice_command = last_voice_command
+    def get_voice_commands(self):
+        return self.voice_commands
+
+    def get_voice_command_help(self):
+        commands = 'Available voice lines:\n';
+        for owner, v in self.voice_commands.items():
+            commands += '\t__{}__\n'.format(owner)
+            for ind, filenames in v.items():
+                for alias, filename in filenames.items():
+                    commands += '\t\t{} : {}\n'.format(alias, filename)
+        commands += ("Typing !voice followed by a category (e.g. !voice genji) will "+
+        "play a random file from that category. To play a specific file, type "+
+        "!voice category followed by the alias of the file. !voice genji become will play "+
+        "'The Dragon Becomes Me!'")
+        return commands

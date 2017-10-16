@@ -12,13 +12,16 @@ import fetch
 import requests
 import time
 from voice_manager import VoiceManager
+from hots_build_builder import BuildBuilder
 
 client = discord.Client()
 configs = json_loader.get_json("config.json")
 text_commands = json_loader.get_json("text_commands.json")
-voice_commands = json_loader.get_json("voice_commands.json")
+butcher = json_loader.get_json("butcher.json")
 voice_files_location = configs["voice"]["directory_name"]
 voice_manager = VoiceManager(client, voice_files_location)
+voice_commands = voice_manager.get_voice_commands()
+build_builder = BuildBuilder()
 
 @client.event
 async def on_ready():
@@ -35,6 +38,11 @@ async def on_ready():
 @client.event
 async def on_message(message):
     #TODO: use message.attachments to save images with text command
+    if(message.content.startswith("!build")):
+        hero = message.content.split()[1]
+        print(hero)
+        builds = build_builder.get_builds_for_hero(hero)
+        await client.send_message(message.channel, builds)
     if(message.content.startswith("!voice")):
         await voice_manager.add_to_queue(message)
     if(message.content.startswith("!addtxtcmd")):
@@ -56,16 +64,7 @@ async def on_message(message):
             commands += "!{}\n".format(k)
         await client.send_message(message.channel, commands)
     if(message.content == "?voice"):
-        commands = 'Available voice lines:\n';
-        for owner, v in voice_commands.items():
-            commands += "\t{}\n".format(owner)
-            for ind, filename in v.items():
-                for index, file in enumerate(filename):
-                    commands += "\t\t{}: {}\n".format(str(index+1), file)
-        commands += ("Typing !voice followed by a category (e.g. !voice genji) will "+
-        "play a random file from that category. To play a specific file, type "+
-        "!voice category followed by the index of the file. !voice genji 5 will play "+
-        "'The Dragon Becomes Me!'")
+        commands = voice_manager.get_voice_command_help()
         await client.send_message(message.channel, commands)
     if(message.content.startswith('!')):
         #await client.delete_message(message)
