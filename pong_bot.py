@@ -43,16 +43,10 @@ async def on_message(message):
         print(hero)
         builds = build_builder.get_builds_for_hero(hero)
         await client.send_message(message.channel, builds)
-#    if(message.content.startswith("!testbutch")):
-#        final_build = ''
-#        talents = butcher["butcher"]["talents"]
-#        build = butcher["butcher"]["builds"]["Lamb to the Slaughter"]
-#        for i, choice in enumerate(build):
-#            tier = i+1
-#            for talent in talents:
-#                if(talent["tier"] == tier and talent["choice"] == choice):
-#                    final_build += (talent["name"]+"\n")
-#        await client.send_message(message.channel, final_build)
+    if(message.content.startswith("[[")):
+        talent = message.content[2:-2].lower()
+        description = build_builder.get_talent(talent)
+        await client.send_message(message.channel, description)
     if(message.content.startswith("!voice")):
         await voice_manager.add_to_queue(message)
     if(message.content.startswith("!addtxtcmd")):
