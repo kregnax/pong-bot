@@ -15,21 +15,35 @@ def get_latest_patch_notes():
     link_string = '\n'.join(links)
     return link_string
 
-def get_hero_list():
-    '''Returns a list of current heroes from battlenet'''
-    url = "http://us.battle.net/heroes/en/heroes/#/"
-    page = requests.get(url, verify=False)
-    soup = BeautifulSoup(page.text, 'html.parser')
-    for cd in soup.findAll(text=True):
-        if "window.heroes" in cd:
-            cd = cd.split(".heroes = ")[1]
-            heroes = cd.split(";\n")[0]
-            continue
-    hero_json = json.loads(heroes)
-    hero_list = []
-    for elem in hero_json:
-         hero_list.append(elem['analyticsName'])
-    return hero_list
+#def get_hero_list():
+#    '''Returns a list of current heroes from battlenet'''
+#    url = "http://us.battle.net/heroes/en/heroes/#/"
+#    page = requests.get(url, verify=False)
+#    soup = BeautifulSoup(page.text, 'html.parser')
+#    for cd in soup.findAll(text=True):
+#        if "window.heroes" in cd:
+#            cd = cd.split(".heroes = ")[1]
+#            heroes = cd.split(";\n")[0]
+#            continue
+#    hero_json = json.loads(heroes)
+#    hero_list = []
+#    for elem in hero_json:
+#         hero_list.append(elem['analyticsName'])
+#    return hero_list
+
+def get_hero_aliases():
+    '''Loops through heroes.json and returns a list of all heroes' aliases ex:hero in get_hero_aliases()'''
+    data = json_loader.get_json("heroes.json")
+    hero_aliases = []
+    for elem in data.keys():
+        hero_aliases.append(elem)
+        for el in data[elem]['alias']:
+            if isinstance(data[elem]['alias'].get(el), list):
+                for e in data[elem]['alias'].get(el):
+                    hero_aliases.append(e)
+            else:
+                hero_aliases.append(data[elem]['alias'].get(el))
+    return hero_aliases
 
 def get_hero_patch_notes(hero, next_cmd=False):
     '''Input a hero name and return a scraped list of the last change notes for that hero. Might add next note funcaitonality'''
