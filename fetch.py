@@ -47,7 +47,7 @@ def get_hero_aliases():
 
 def get_hero_patch_notes(hero, next_cmd=False):
     '''Input a hero name and return a scraped list of the last change notes for that hero. Might add next note funcaitonality'''
-    if hero.lower() in get_hero_list():
+    if hero.lower() in get_hero_aliases():
         url = "https://heroespatchnotes.com/hero/{}.html".format(hero) #abathur.html#patch2017-09-26"
         page = requests.get(url, verify=False)
         soup = BeautifulSoup(page.text, 'html.parser')
@@ -59,7 +59,7 @@ def get_hero_patch_notes(hero, next_cmd=False):
     return '\n'.join(notes_list)
 
 def get_weak_counters(hero):
-    if hero.lower() in get_hero_list():
+    if hero.lower() in get_hero_aliases():
         url = 'https://www.heroescounters.com/hero/{}'.format(hero)
         page = requests.get(url, verify=False)
         soup = BeautifulSoup(page.text, 'html.parser')
@@ -76,7 +76,7 @@ def get_weak_counters(hero):
     return '\n'.join(hero_counter_list)
 
 def get_strong_counters(hero):
-    if hero.lower() in get_hero_list():
+    if hero.lower() in get_hero_aliases():
         url = 'https://www.heroescounters.com/hero/{}'.format(hero)
         page = requests.get(url, verify=False)
         soup = BeautifulSoup(page.text, 'html.parser')
