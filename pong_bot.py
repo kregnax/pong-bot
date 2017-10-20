@@ -17,7 +17,7 @@ from hots_build_builder import BuildBuilder
 client = discord.Client()
 configs = json_loader.get_json("config.json")
 text_commands = json_loader.get_json("text_commands.json")
-butcher = json_loader.get_json("heroes.json")
+heroes_json = json_loader.get_json("heroes.json")
 voice_files_location = configs["voice"]["directory_name"]
 voice_manager = VoiceManager(client, voice_files_location)
 voice_commands = voice_manager.get_voice_commands()
@@ -38,6 +38,9 @@ async def on_ready():
 @client.event
 async def on_message(message):
     #TODO: use message.attachments to save images with text command
+    if(message.content.startswith("$test")):
+        if('lost vikings' in heroes_json['tlv']['alias']['misc']):
+            await client.send_message(message.channel,heroes_json['tlv']['alias']['hots-cntr'])
     if(message.content.startswith("!build")):
         hero = message.content.split()[1]
         print(hero)
