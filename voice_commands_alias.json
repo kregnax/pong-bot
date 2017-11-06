@@ -21,7 +21,8 @@
             "yeah": "doc_yeah.mp3",
             "good": "doc_looking_feeling_smelling_good.mp3",
             "idiot": "doc_idiot.mp3",
-            "come": "doc_come.mp3"
+            "come": "doc_come.mp3",
+            "gillette":"doc_gillette.mp3"
         }
     },
     "jim":
@@ -41,7 +42,9 @@
             "h2o": "alan_garbage_water.mp3",
             "laugh": "alan_laugh.mp3",
             "start": "start_the_game_already.mp3",
-            "nooice": "nooice.mp3"
+            "nooice": "nooice.mp3",
+            "later": "rafi_later.mp3",
+            "hands": "day9_hands.mp3"
         }
     }
 }

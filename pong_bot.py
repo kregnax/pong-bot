@@ -8,18 +8,15 @@ import sys
 import os
 import json
 import json_loader
-import fetch
 import requests
 import time
 from voice_manager import VoiceManager
-from hots_build_builder import BuildBuilder
 
 client = discord.Client()
 configs = json_loader.get_json("config.json")
 voice_files_location = configs["voice"]["directory_name"]
 voice_manager = VoiceManager(client, voice_files_location)
 voice_commands = voice_manager.get_voice_commands()
-build_builder = BuildBuilder()
 
 @client.event
 async def on_ready():

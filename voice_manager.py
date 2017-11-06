@@ -49,7 +49,7 @@ class VoiceManager(object):
                         await voice.disconnect()
                         break
                 except:
-                    break;
+                    break
 
     def get_path_to_selected_file(self, message):
         commands = str(message.content).split()
@@ -81,7 +81,7 @@ class VoiceManager(object):
                 for alias, filename in filenames.items():
                     commands += '\t\t{} : {}\n'.format(alias, filename)
         commands += ("Typing !voice followed by a category (e.g. !voice genji) will "+
-        "play a random file from that category. To play a specific file, type "+
+                     "play a random file from that category. To play a specific file, type "+
         "!voice category followed by the alias of the file. !voice genji become will play "+
         "'The Dragon Becomes Me!'")
         return commands
